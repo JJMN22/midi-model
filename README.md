@@ -1,5 +1,11 @@
 # Midi-Model
 
+## Training with LORA
+- Keep a list of all midi files in a midi_files/ folder under the midi-model directory.
+- Download the pretrained model from huggingface using `git clone https://huggingface.co/skytnt/midi-model-tv2o-medium pretrained_models/tv2o-medium`
+- Train using `python train.py  --task lora --ckpt pretrained_models/tv2o-medium/model.safetensors  --config tv2o-medium  --data midi_files --lr 3e-5 --max-step 1000  --val-step 400`
+
+
 ## Midi event transformer for music generation
 
 ![](./banner.png)

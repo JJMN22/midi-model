@@ -431,9 +431,12 @@ if __name__ == '__main__':
                            sample_seq=opt.sample_seq, gen_example_interval=opt.gen_example_interval,
                            example_batch=opt.batch_size_gen_example)
     if opt.ckpt:
-        ckpt = torch.load(opt.ckpt, map_location="cpu")
-        state_dict = ckpt.get("state_dict", ckpt)
-        model.load_state_dict(state_dict, strict=False)
+        if opt.ckpt.endswith(".safetensors"):
+            from safetensors.torch import load_file as safe_load_file
+            state_dict = safe_load_file(opt.ckpt)
+        else:
+            ckpt = torch.load(opt.ckpt, map_location="cpu")
+            state_dict = ckpt.get("state_dict", ckpt)
     elif opt.task == "lora":
         raise ValueError("--ckpt must be set to train lora")
     if opt.task == "lora":
